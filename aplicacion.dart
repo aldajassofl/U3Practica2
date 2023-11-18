@@ -47,7 +47,7 @@ class _AppState extends State<App> {
         bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.inventory),child: Text("Inventario"),),
-              Tab(icon: Icon(Icons.checklist),child: Text("Comprar"),),
+              Tab(icon: Icon(Icons.checklist),child: Text("Urge Comprar"),),
             ]
         ),
       ),
