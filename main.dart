@@ -18,10 +18,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'PARELIB',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+        colorScheme: ColorScheme.fromSwatch(
+            backgroundColor: Colors.black,
+                primarySwatch: Colors.purple,
+        )
       ),
+
       home: App(),
     );
   }

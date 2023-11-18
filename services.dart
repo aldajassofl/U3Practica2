@@ -24,7 +24,7 @@ class DB {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     final random = Random();
     return String.fromCharCodes(Iterable.generate(
-        8, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
+        10, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
   }
 
   static String getIdImage(String URL){
@@ -60,13 +60,30 @@ class DB {
     return await baseRemota.collection("producto").add(persona);
   }
 
-  static Future<List> showAll() async {
+  static Future<List> showAll(String busqueda) async {
     List temp = [];
-    var query = await baseRemota.collection("producto").get();
+    var query = await baseRemota.collection("producto").orderBy('nombre').get();
+    RegExp buscar = RegExp(busqueda,caseSensitive: false);
     query.docs.forEach((element) {
       Map<String, dynamic> dato = element.data();
-      dato.addAll({'id': element.id});
-      temp.add(dato);
+      if(buscar.hasMatch(dato['nombre']) || buscar.hasMatch(dato['descripcion'])){
+        dato.addAll({'id':element.id});
+        temp.add(dato);
+      }
+    });
+    return temp;
+  }
+
+  static Future<List> showListaCompras(String busqueda) async {
+    List temp = [];
+    var query = await baseRemota.collection("producto").where('existencias',isLessThanOrEqualTo: 10).orderBy('existencias').get();
+    RegExp buscar = RegExp(busqueda,caseSensitive: false);
+    query.docs.forEach((element) {
+      Map<String, dynamic> dato = element.data();
+      if(buscar.hasMatch(dato['nombre']) || buscar.hasMatch(dato['descripcion'])){
+        dato.addAll({'id':element.id});
+        temp.add(dato);
+      }
     });
     return temp;
   }
